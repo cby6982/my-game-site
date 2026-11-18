@@ -1,0 +1,26 @@
+# 系統檔
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 編輯器
+.vscode/
+.idea/
+*.swp
+
+# 相依（本專案零依賴，只有重新產生字型時會暫時安裝）
+node_modules/
+package-lock.json
+
+# 建置產物
+dist/
+build/
+
+# 日誌
+*.log
+npm-debug.log*
+
+# Python（字型工具）
+__pycache__/
+*.pyc
+.venv/

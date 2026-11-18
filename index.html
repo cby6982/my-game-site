@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#05060d">
+  <title>NEON ARCADE 霓虹遊樂場｜免費網頁街機遊戲</title>
+  <meta name="description" content="現代霓虹風格的網頁遊戲網站。霓虹打磚塊與霓虹貪食蛇，支援手機觸控與電腦鍵盤，免安裝即刻開玩。">
+  <meta property="og:title" content="NEON ARCADE 霓虹遊樂場">
+  <meta property="og:description" content="兩款經典街機，換上現代霓虹外衣。手機觸控、電腦鍵盤都順手。">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%2305060d'/%3E%3Cpath d='M50 16 64 50 50 84 36 50Z' fill='%2339e6ff'/%3E%3Cpath d='M16 50 50 36 84 50 50 64Z' fill='%23ff3fa4' opacity='.85'/%3E%3C/svg%3E">
+  <link rel="preload" href="assets/fonts/noto-sans-tc-700.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/space-grotesk-700.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- icon sprite -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="icon-sound-on" viewBox="0 0 24 24">
+      <path d="M4 9.5v5h3.5L12 18V6L7.5 9.5H4z"/>
+      <path d="M15.5 9a4.5 4.5 0 0 1 0 6"/>
+      <path d="M18.2 6.6a8 8 0 0 1 0 10.8"/>
+    </symbol>
+    <symbol id="icon-sound-off" viewBox="0 0 24 24">
+      <path d="M4 9.5v5h3.5L12 18V6L7.5 9.5H4z"/>
+      <path d="M16 10l4 4M20 10l-4 4"/>
+    </symbol>
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24">
+      <path d="M15 5l-7 7 7 7"/>
+    </symbol>
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24">
+      <path d="M9 5l7 7-7 7"/>
+    </symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24">
+      <path d="M8 5.5v13l11-6.5L8 5.5z"/>
+    </symbol>
+    <symbol id="icon-bolt" viewBox="0 0 24 24">
+      <path d="M13 2 4.5 13H11l-1 9 8.5-11H12l1-9z"/>
+    </symbol>
+    <symbol id="icon-devices" viewBox="0 0 24 24">
+      <rect x="2.5" y="5" width="13" height="10" rx="1.8"/>
+      <path d="M6.5 19h6"/>
+      <rect x="17" y="9" width="4.5" height="8.5" rx="1.2"/>
+    </symbol>
+    <symbol id="icon-trophy" viewBox="0 0 24 24">
+      <path d="M8 4h8v5.5a4 4 0 0 1-8 0V4z"/>
+      <path d="M8 5H5v2a3 3 0 0 0 3 3M16 5h3v2a3 3 0 0 1-3 3"/>
+      <path d="M12 13.5V17M8.5 20h7"/>
+    </symbol>
+    <symbol id="icon-rocket" viewBox="0 0 24 24">
+      <path d="M13.5 3.5c3.8-.7 6.5 2 5.8 5.8-.5 2.8-2.6 6-6.6 8.2l-4-4c2.2-4 5.4-6.1 8.2-6.6"/>
+      <path d="M8.7 13.5 4 18.2M9.5 6.5 5 8.2l-1.5 3.6 3.4.6M17.5 14.5l-1.7 4.5-3.6 1.5-.6-3.4"/>
+      <circle cx="15.6" cy="8.4" r="1.4"/>
+    </symbol>
+    <symbol id="icon-cards" viewBox="0 0 24 24">
+      <rect x="3" y="6" width="10" height="14" rx="2"/>
+      <path d="M8 3h8a2 2 0 0 1 2 2v10"/>
+      <path d="M8 15v-4l2 2 2-2v4"/>
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24">
+      <path d="M4.5 12.5 9.5 17.5 20 6.5"/>
+    </symbol>
+  </svg>
+
+  <div class="ambient" aria-hidden="true">
+    <div class="ambient-grid"></div>
+    <span class="orb orb-1"></span>
+    <span class="orb orb-2"></span>
+    <span class="orb orb-3"></span>
+    <span class="vignette"></span>
+  </div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#/" aria-label="NEON ARCADE 首頁">
+        <span class="brand-glyph" aria-hidden="true">
+          <svg viewBox="0 0 32 32">
+            <path d="M16 3 22 16 16 29 10 16Z" fill="url(#brandGradA)"/>
+            <path d="M3 16 16 10 29 16 16 22Z" fill="url(#brandGradB)" opacity=".85"/>
+            <defs>
+              <linearGradient id="brandGradA" x1="10" y1="3" x2="22" y2="29" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#7df7ff"/><stop offset="1" stop-color="#ff5fb4"/>
+              </linearGradient>
+              <linearGradient id="brandGradB" x1="3" y1="10" x2="29" y2="22" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#2ee6ff"/><stop offset="1" stop-color="#a78bfa"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span class="brand-text">NEON<em>ARCADE</em></span>
+      </a>
+      <nav class="site-nav" aria-label="主要導覽">
+        <a href="#games">遊戲選單</a>
+        <a href="#howto">玩法</a>
+        <button class="icon-btn sound-btn" id="soundToggle" type="button" aria-pressed="false" aria-label="切換音效" title="切換音效">
+          <svg class="icon-on" aria-hidden="true"><use href="#icon-sound-on"/></svg>
+          <svg class="icon-off" aria-hidden="true"><use href="#icon-sound-off"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="hero-badge"><span class="pulse-dot"></span> Arcade Reborn · 免安裝即玩</p>
+      <h1>讓指尖<br><span class="gradient-text">點亮霓虹</span></h1>
+      <p class="hero-lede">兩款經典街機，換上現代霓虹外衣。<br>手機觸控、電腦鍵盤都順手，休息五分鐘就來一局。</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#games">
+          選擇遊戲
+          <svg aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#howto">操作說明</a>
+      </div>
+      <ul class="hero-meta">
+        <li><strong>02</strong><span>款即玩遊戲</span></li>
+        <li><strong>Touch</strong><span>手機觸控</span></li>
+        <li><strong>Keyboard</strong><span>鍵盤操作</span></li>
+        <li><strong>Local</strong><span>本機最高分</span></li>
+      </ul>
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>Neon Breakout</span><i>◆</i><span>霓虹打磚塊</span><i>◆</i><span>Neon Snake</span><i>◆</i><span>霓虹貪食蛇</span><i>◆</i><span>Touch Ready</span><i>◆</i><span>Keyboard Ready</span><i>◆</i><span>No Install</span><i>◆</i>
+        <span>Neon Breakout</span><i>◆</i><span>霓虹打磚塊</span><i>◆</i><span>Neon Snake</span><i>◆</i><span>霓虹貪食蛇</span><i>◆</i><span>Touch Ready</span><i>◆</i><span>Keyboard Ready</span><i>◆</i><span>No Install</span><i>◆</i>
+      </div>
+    </div>
+
+    <section class="section" id="games">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Game Library</p>
+          <h2>選擇你的遊戲</h2>
+        </div>
+        <p class="section-note">點擊卡片就能開始。最高分會自動保存在你的瀏覽器裡，換裝置也不怕進度被追走。</p>
+      </div>
+
+      <div class="game-grid">
+        <!-- 打磚塊 -->
+        <article class="game-card" data-game="brick" tabindex="0" role="button" aria-label="開始遊戲：霓虹打磚塊">
+          <div class="card-visual">
+            <canvas data-preview="brick" width="720" height="450" aria-hidden="true"></canvas>
+            <span class="card-chip">街機 · 1P</span>
+            <span class="card-live"><span class="dot"></span>可遊玩</span>
+            <span class="card-play" aria-hidden="true">
+              <svg><use href="#icon-play"/></svg>
+            </span>
+          </div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <h3>霓虹打磚塊</h3>
+              <span class="card-tag">Neon Breakout</span>
+            </div>
+            <p>用擋板接住光球，擊碎整片霓虹磚牆。連擊不中斷，分數就會一路狂飆。</p>
+            <div class="card-controls">
+              <span><kbd>←</kbd><kbd>→</kbd> 移動</span>
+              <span><kbd>Space</kbd> 發射</span>
+              <span>觸控拖曳</span>
+            </div>
+            <div class="card-footer">
+              <div class="card-best"><span>最高分</span><strong data-best="brick">—</strong></div>
+              <span class="btn btn-card">開始遊戲 <svg aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 貪食蛇 -->
+        <article class="game-card" data-game="snake" tabindex="0" role="button" aria-label="開始遊戲：霓虹貪食蛇">
+          <div class="card-visual">
+            <canvas data-preview="snake" width="720" height="450" aria-hidden="true"></canvas>
+            <span class="card-chip">益智 · 1P</span>
+            <span class="card-live"><span class="dot"></span>可遊玩</span>
+            <span class="card-play" aria-hidden="true">
+              <svg><use href="#icon-play"/></svg>
+            </span>
+          </div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <h3>霓虹貪食蛇</h3>
+              <span class="card-tag">Neon Snake</span>
+            </div>
+            <p>吃掉光點讓蛇身變長，小心別撞上自己與邊界。吃得越多，速度越刺激。</p>
+            <div class="card-controls">
+              <span><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> 轉向</span>
+              <span>滑動螢幕</span>
+            </div>
+            <div class="card-footer">
+              <div class="card-best"><span>最高分</span><strong data-best="snake">—</strong></div>
+              <span class="btn btn-card">開始遊戲 <svg aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 即將推出 -->
+        <article class="game-card is-coming" aria-disabled="true">
+          <div class="card-visual coming-visual" data-glow="violet">
+            <svg class="coming-icon" aria-hidden="true"><use href="#icon-rocket"/></svg>
+            <span class="card-chip">射擊 · 開發中</span>
+            <span class="card-live muted"><span class="dot"></span>即將推出</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <h3>星際突圍</h3>
+              <span class="card-tag">Star Drifter</span>
+            </div>
+            <p>穿梭隕石雨、擊退蜂擁而來的敵機。下一款霓虹街機，正在趕工中。</p>
+            <div class="card-footer">
+              <div class="card-best"><span>狀態</span><strong class="muted-strong">Soon</strong></div>
+              <span class="btn btn-card is-disabled">敬請期待</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="game-card is-coming" aria-disabled="true">
+          <div class="card-visual coming-visual" data-glow="magenta">
+            <svg class="coming-icon" aria-hidden="true"><use href="#icon-cards"/></svg>
+            <span class="card-chip">益智 · 開發中</span>
+            <span class="card-live muted"><span class="dot"></span>即將推出</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <h3>記憶翻牌</h3>
+              <span class="card-tag">Neon Match</span>
+            </div>
+            <p>翻開霓虹卡牌，找出成對圖樣。考驗記憶力與節奏的輕鬆小品。</p>
+            <div class="card-footer">
+              <div class="card-best"><span>狀態</span><strong class="muted-strong">Soon</strong></div>
+              <span class="btn btn-card is-disabled">敬請期待</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="howto">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">How to Play</p>
+          <h2>兩秒上手，馬上開玩</h2>
+        </div>
+        <p class="section-note">所有操作都同時支援鍵盤與觸控，找一個舒服的姿勢就好。</p>
+      </div>
+
+      <div class="control-panels">
+        <article class="control-panel" style="--accent: var(--cyan); --accent-soft: rgba(57,230,255,.14);">
+          <header>
+            <h3>霓虹打磚塊</h3>
+            <span>Breakout</span>
+          </header>
+          <ul>
+            <li>
+              <span>移動擋板</span>
+              <div><kbd>←</kbd><kbd>→</kbd><kbd>A</kbd><kbd>D</kbd><em>或拖曳畫面</em></div>
+            </li>
+            <li>
+              <span>發射光球</span>
+              <div><kbd>Space</kbd><em>或點擊畫面</em></div>
+            </li>
+            <li>
+              <span>暫停 / 繼續</span>
+              <div><kbd>P</kbd><kbd>Esc</kbd></div>
+            </li>
+            <li>
+              <span>得分技巧</span>
+              <div><em>連續擊碎磚塊可累積連擊加成</em></div>
+            </li>
+          </ul>
+        </article>
+
+        <article class="control-panel" style="--accent: var(--lime); --accent-soft: rgba(184,255,74,.14);">
+          <header>
+            <h3>霓虹貪食蛇</h3>
+            <span>Snake</span>
+          </header>
+          <ul>
+            <li>
+              <span>改變方向</span>
+              <div><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd><em>或滑動畫面</em></div>
+            </li>
+            <li>
+              <span>手機操作</span>
+              <div><em>畫面下方的方向鍵</em></div>
+            </li>
+            <li>
+              <span>暫停 / 繼續</span>
+              <div><kbd>Space</kbd><kbd>P</kbd><kbd>Esc</kbd></div>
+            </li>
+            <li>
+              <span>得分技巧</span>
+              <div><em>金色光點價值更高，吃越快蛇越快</em></div>
+            </li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="feature-row">
+        <div class="feature">
+          <svg aria-hidden="true"><use href="#icon-bolt"/></svg>
+          <div><strong>零安裝、零載入</strong><span>打開網頁就是遊戲本體。</span></div>
+        </div>
+        <div class="feature">
+          <svg aria-hidden="true"><use href="#icon-devices"/></svg>
+          <div><strong>手機、平板、桌機</strong><span>觸控與鍵盤操作一次到位。</span></div>
+        </div>
+        <div class="feature">
+          <svg aria-hidden="true"><use href="#icon-trophy"/></svg>
+          <div><strong>本機最高分</strong><span>紀錄留在瀏覽器，隨時挑戰自己。</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-text">NEON<em>ARCADE</em></span>
+        <p>用 HTML、CSS 與 Canvas 手工打造的霓虹街機小宇宙。</p>
+      </div>
+      <nav class="footer-links" aria-label="頁尾導覽">
+        <a href="#games">遊戲選單</a>
+        <a href="#howto">玩法</a>
+        <a href="https://github.com/cby6982/my-game-site" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+      <p class="copyright">© 2026 NEON ARCADE · 最高分僅儲存在你的裝置</p>
+    </div>
+  </footer>
+
+  <!-- ================= 遊戲畫面 ================= -->
+  <section class="game-screen" id="gameScreen" data-game="brick" aria-hidden="true" aria-label="遊戲畫面">
+    <div class="game-bar">
+      <button class="icon-btn" id="backBtn" type="button" aria-label="返回遊戲選單" title="返回遊戲選單">
+        <svg aria-hidden="true"><use href="#icon-arrow-left"/></svg>
+      </button>
+      <div class="game-bar-title">
+        <span class="game-now" id="gameNowTitle">霓虹打磚塊</span>
+        <span class="game-now-sub" id="gameNowSub">NEON BREAKOUT</span>
+      </div>
+      <div class="game-bar-actions">
+        <button class="pill-btn" id="pauseBtn" type="button" disabled>暫停</button>
+        <button class="icon-btn sound-btn" data-sound-toggle type="button" aria-pressed="false" aria-label="切換音效" title="切換音效">
+          <svg class="icon-on" aria-hidden="true"><use href="#icon-sound-on"/></svg>
+          <svg class="icon-off" aria-hidden="true"><use href="#icon-sound-off"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="game-body">
+      <div class="hud" id="hud" aria-live="polite"></div>
+      <div class="stage" id="stage">
+        <div class="canvas-shell" id="canvasShell">
+          <canvas id="gameCanvas"></canvas>
+          <div class="scanlines" aria-hidden="true"></div>
+          <div class="game-overlay" id="gameOverlay" hidden></div>
+        </div>
+      </div>
+      <div class="game-controls" id="gameControls"></div>
+    </div>
+  </section>
+
+  <noscript>
+    <p style="padding:24px;text-align:center;">這個遊戲需要 JavaScript 才能執行，請開啟 JavaScript 後重新整理。</p>
+  </noscript>
+
+  <script src="js/sound.js"></script>
+  <script src="js/games/brick.js"></script>
+  <script src="js/games/snake.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
